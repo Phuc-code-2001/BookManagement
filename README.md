@@ -1,9 +1,9 @@
 # BookManagement
 
-##Building ASP.NET Web API with Entity 
+## Building ASP.NET Web API with Entity 
 Framework Core and Web Application
 
-###Introduction
+### Introduction
 1. Imagine you're an employee of a company named eBookStore. Your manager 
 has asked you to develop a Web application for user management, publisher 
 management, book management, author management and the book-author 
@@ -18,7 +18,7 @@ Application (ASP.NET Core Web MVC or Razor Pages). An MS SQL Server
 database will be created to persist the data and it will be used for reading and 
 managing data.
 
-###Assignment Objectives
+### Assignment Objectives
 In this assignment, you will:
 - Use the Visual Studio.NET to create a Web application and ASP.NET Core 
 Web API project (with OData support).
@@ -33,11 +33,11 @@ Core Web API.
 - Apply to validate data type for all fields. 
 - Run the project and test the actions of the Web application.
 
-###Database Design
+### Database Design
 
 ![image](https://user-images.githubusercontent.com/63900676/197526241-af422467-722d-4a7f-af08-3de537729227.png)
 
-###Main Functions
+### Main Functions
 - Create database with Forward Engineering approach (create model classes 
 and DB context class and migration). 
 - Create Web API with OData: Book management, Author management, and 
