@@ -28,6 +28,12 @@ namespace DataLayer.Domain
         public decimal YTDSales { get; set; } = 0; // Tiền bán sách từ đầu năm
 
         public string Note { get; set; }
+
+		// Relationship
+		[ForeignKey(nameof(Publisher))]
+        public int PublisherId { get; set; }
+        public Publisher Publisher { get; set; }
+
         public DateTime PublishedDate { get; set; }
 
     }

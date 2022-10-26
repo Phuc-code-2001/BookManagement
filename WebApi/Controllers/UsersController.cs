@@ -28,6 +28,11 @@ namespace WebApi.Controllers
         {
             try
             {
+                if(_context.Users.Any(u => u.Email == createModel.Email))
+				{
+                    return BadRequest("Email already have account!");
+				}
+
                 AppUser appUser = _mapper.Map<AppUser>(createModel);
                 _context.Users.Add(appUser);
                 _context.SaveChanges();

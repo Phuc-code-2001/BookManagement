@@ -10,6 +10,7 @@ namespace WebApi.Models.Users
         public string Email { get; set; }
         [Required]
         [StringLength(32, MinimumLength = 6)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]

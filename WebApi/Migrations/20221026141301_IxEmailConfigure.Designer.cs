@@ -4,14 +4,16 @@ using DataLayer.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221026141301_IxEmailConfigure")]
+    partial class IxEmailConfigure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,9 +147,6 @@ namespace WebApi.Migrations
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Royalty")
                         .HasColumnType("decimal(18,2)");
 
@@ -163,8 +162,6 @@ namespace WebApi.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
                 });
@@ -239,17 +236,6 @@ namespace WebApi.Migrations
                     b.Navigation("Publisher");
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("DataLayer.Domain.Book", b =>
-                {
-                    b.HasOne("DataLayer.Domain.Publisher", "Publisher")
-                        .WithMany()
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("DataLayer.Domain.BookAuthor", b =>
