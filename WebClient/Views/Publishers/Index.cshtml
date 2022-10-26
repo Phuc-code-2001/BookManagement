@@ -11,7 +11,7 @@
 				<button id="btn-create" target="_blank" class="btn btn-secondary">Create New</button>
 			</div>
 			<div class="col-md-12">
-				<form id="form_create">
+				<form id="form_create" autocomplete="off">
 					<h4>Please fill information below</h4>
 					<hr />
 					<div class="row">
@@ -272,8 +272,6 @@ $("#form_create_close").click(() => {
     $("#form_create").hide(1);
 })
 
-
-
 var Init = function() {
 	$("#loading").hide();
     $("#table_items").hide();
@@ -284,9 +282,104 @@ var Init = function() {
     getOptions("GetCities", $("select[name='City']"));
     getOptions("GetStates", $("select[name='State']"));
     getOptions("GetCountries", $("select[name='Country']"));
-}
+}();
 
-Init();
+// create publisher use ajax
+var frm = $('#form_create');
+frm.submit(function (e) {
+	// don't submit form yet
+	e.preventDefault();
+
+    var object = {};
+	// get value from form stackoverflow
+	(new FormData(e.target)).forEach(function(value, key){
+		// check can parse from string to int or not
+		if(!isNaN(value)){
+			value = parseFloat(value);
+		}
+		object[key] = value;
+	});
+
+	var json = JSON.stringify(object);
+
+    console.log("Submit(post): " + json);
+
+	$.ajax({
+		type: 'post',
+        headers: {
+			"Content-Type": "application/json"
+		},
+		url: baseUrl + "Publishers",
+		data: json,
+		// onsuccess
+		success: function (publisher) {
+			alert('Create publisher was successful, Id=' + publisher.id);
+				console.log(publisher);
+		},
+		// onerror
+		error: function (err) {
+			alert('An error occurred: ' + err.responseText);
+			console.log(err.responseText);
+		},
+	});
+});
+
+
+// update publisher use ajax
+var updateFrm = $('#form_update');
+updateFrm.submit(function (e) {
+	// don't submit form yet
+	e.preventDefault();
+
+	var object = {};
+	// get value from form stackoverflow
+	(new FormData(e.target)).forEach(function (value, key) {
+		// check can parse from string to int or not
+		if (!isNaN(value)) {
+			value = parseFloat(value);
+		}
+		object[key] = value;
+	});
+
+	var json = JSON.stringify(object);
+
+	console.log("Submit(post): " + json);
+
+	$.ajax({
+		type: 'put',
+		headers: {
+			"Content-Type": "application/json"
+		},
+		url: baseUrl + "Publishers",
+		data: json,
+		// onsuccess
+		success: function (item) {
+			alert('Update publisher was successful, Id=' + item.id);
+			console.log(item);
+
+			let newRow =
+				`<tr id="${item.id}">
+					<td>${item.id}</td>
+					<td>${item.name}</td>
+					<td>${item.city.name}</td>
+					<td>${item.state.name}</td>
+					<td>${item.country.name}</td>
+					<td>
+						<button name="btn-update" class="btn btn-success m-1" value="${selectedIndex}">Edit</button>
+						<button name="btn-delete" class="btn btn-danger m-1" value="${selectedIndex}">Remove</button>
+					</td>
+				<tr>`;
+			$(`#${item.id}`).replaceWith(newRow); 
+			publishers[selectedIndex] = item;
+			addFillDataEvent();
+		},
+		// onerror
+		error: function (err) {
+			alert('An error occurred: ' + err.responseText);
+			console.log(err.responseText);
+		},
+	});
+});
 
 </script>
 

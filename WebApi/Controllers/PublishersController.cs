@@ -93,13 +93,13 @@ namespace WebApi.Controllers
         {
             try
             {
-                Publisher entity = _context.Publishers.Find(updateModel.Id);
-                if (entity == null) return NotFound("Publisher not found!");
+                bool isExist= _context.Publishers.Any(p => p.Id.Equals(updateModel.Id));
+                if (!isExist) return NotFound("Publisher not found!");
 
-                _context.Publishers.Update(entity);
+                _context.Publishers.Update(updateModel);
                 _context.SaveChanges();
 
-                PublisherDTO pDTO = _mapper.Map<PublisherDTO>(entity);
+                PublisherDTO pDTO = _mapper.Map<PublisherDTO>(updateModel);
 
                 return Ok(pDTO);
             }
