@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,23 @@ namespace DataLayer.Domain
 {
     public class AppDbContext : DbContext
     {
+
+        IConfiguration _configuration;
+
+        public AppDbContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                    .UseSqlServer(_configuration.GetConnectionString("Default")
+                    , b => b.MigrationsAssembly("WebApi"));
+            }
+        }
 
         public DbSet<AppUser> Users { get; set; }
         public DbSet<AppRole> Roles { get; set; }
