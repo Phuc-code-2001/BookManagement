@@ -1,0 +1,347 @@
+﻿@{
+	ViewData["Title"] = "Users";
+}
+
+<div class="card">
+	<div class="card-header">Users Panel</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12 text-white text-center">
+				<button name="btn-function" value="getAll" class="btn btn-primary">Refresh</button>
+				<button name="btn-function" value="addNew" class="btn btn-secondary">Create New User</button>
+			</div>
+
+			<div class="col-md-12">
+				<h4>Infomation</h4>
+				<hr />
+				<table id="table_users" class="table table-striped table-hover table-md-responsive text-center">
+					<thead class="bg-primary text-white">
+						<tr>
+							<th>Id</th>
+							<th>Email</th>
+							<th>FullName</th>
+							<th>HireDate</th>
+							<th>Role</th>
+							<th>Source</th>
+							<th>Publisher</th>
+							<th>...</th>
+						</tr>
+						<tr id="loading">
+							<td colspan="8">
+								<div class="spinner-border text-secondary" role="status">
+									<span class="sr-only">Loading...</span>
+								</div>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+				
+
+				<form id="form_user" autocomplete="off" style="gap: 10px">
+					<hr />
+					<div class="form-group">
+						<label for="Id">Id</label>
+						<input type="text" readonly class="form-control" id="Id" name="Id" placeholder="User Id"/>
+					</div>
+					<div class="form-group">
+						<label for="FirstName">FirstName</label>
+						<input type="text" class="form-control" id="FirstName" name="FirstName" placeholder="User FirstName"/>
+					</div>
+					<div class="form-group">
+						<label for="MiddleName">MiddleName</label>
+						<input type="text" class="form-control" id="MiddleName" name="MiddleName" placeholder="User MiddleName"/>
+					</div>
+					<div class="form-group">
+						<label for="LastName">LastName</label>
+						<input type="text" class="form-control" id="LastName" name="LastName" placeholder="User LastName"/>
+					</div>
+					<div class="form-group">
+						<label for="Source">Source</label>
+						<input type="text" class="form-control" id="Source" name="Source" placeholder="User Source"/>
+					</div>
+					<div class="form-group">
+						<label for="HireDate">HireDate</label>
+						<input type="date" class="form-control" id="HireDate" name="HireDate" placeholder="User HireDate"/>
+					</div>
+					<div class="form-group">
+						<label for="Publisher">Publisher</label>
+						<select class="form-control" id="Publisher" name="PublisherId" placeholder="User Publisher">
+
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="Role">Role</label>
+						<select class="form-control" id="Role" name="RoleId" placeholder="User Role">
+
+						</select>
+					</div>
+					<div class="flex-fill text-right">
+						<button type="button" id="form_close" class="btn btn-danger">Close</button>
+						<button type="submit" class="btn btn-success">Save</button>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+@section Scripts {
+	<script>
+
+		// Definition
+
+		var baseUrl = "https://localhost:44310/api/"
+
+		var users = [];
+		var publishers = [];
+		var roles = [];
+		var selectedUser = null;
+		var currentSelectedIndex = -1;
+
+
+		var getAllPublisher = function() {
+
+			$.get(baseUrl + "Publishers", function(data, status)
+			{
+                if (status == "success") {
+                    publishers = data;
+                    console.log(publishers);
+                    fillPublisherToSelectBox(publishers);
+                }
+                else {
+                    alert(data);
+				}
+			});
+
+		}
+
+		var fillPublisherToSelectBox = function(dataset) {
+            let dataRow = "";
+
+			dataset.forEach((publisher, idx) => {
+                dataRow += 
+				`
+				<option value=${publisher.id}>${publisher.name}</option>
+				`;
+            });
+
+            $("#Publisher").append(dataRow);
+
+		}
+
+		var getAllRole = function() {
+
+			$.get(baseUrl + "Roles", function(data, status)
+			{
+                if (status == "success") {
+                    roles = data;
+                    console.log(roles);
+                    fillRoleToSelectBox(roles);
+                }
+                else {
+                    alert(data);
+				}
+			});
+
+		}
+
+		var fillRoleToSelectBox = function(dataset) {
+            let dataRow = "";
+
+			dataset.forEach((role, idx) => {
+                dataRow += 
+				`
+				<option value=${role.id}>${role.description}</option>
+				`;
+            });
+
+            $("#Role").append(dataRow);
+
+		}
+
+		var getAllUser = function() {
+
+			$("#table_users").show();
+            $("#loading").show(0.5);
+
+			$.get(baseUrl + "Users", function(data, status)
+			{
+                if (status == "success") {
+                    $("#loading").hide(0.5);
+                    users = data;
+                    renderUser(users);
+                }
+                else {
+                    alert(data);
+				}
+			});
+            
+		}
+
+		var renderUser = function(dataset) {
+            
+            let dataRow = "";
+			
+			dataset.forEach((user, idx) => {
+                dataRow += 
+				`
+				<tr id="${user.id}">
+					<td>${user.id}</td>
+					<td>${user.email}</td>
+					<td>${user.fullName}</td>
+					<td>${user.hireDate}</td>
+					<td>${user.role.description}</td>
+					<td>${user.source}</td>
+					<td>${user.publisher.name}</td>
+					<td>
+						<button name="btn-update" class="btn btn-success m-1" value="${idx}">Edit</button>
+						<button name="btn-delete" class="btn btn-danger m-1" value="${idx}">Remove</button>
+					</td>
+				<tr>
+				`; 
+            });
+
+            $("#table_users tbody").html(dataRow);
+            addFillDataEvent();
+
+		}
+
+		var fillUserInfo = function(user) {
+
+            $("#Id").val(user.id);
+            $("#FirstName").val(user.firstName);
+            $("#MiddleName").val(user.middleName);
+            $("#LastName").val(user.lastName);
+            $("#Source").val(user.source);
+            $("#HireDate").val(user.hireDate);
+            $("#Publisher").val(user.publisher.id);
+            $("#Role").val(user.role.id);
+		};
+
+		var updateBtnClicked = (e) => {
+
+            console.log("update clicked!");
+            let idx = e.currentTarget.value;
+            selectedUser = users[idx];
+            currentSelectedIndex = idx;
+            fillUserInfo(selectedUser);
+			$("#form_user").show(0.8);
+		}
+
+		var deleteBtnClicked = (e) => {
+			console.log("delete clicked!");
+            
+			let idx = e.currentTarget.value;
+			let deleteSelectedUser = users[idx];
+
+            if (confirm(`Delete user with Id=${deleteSelectedUser.id}? You cannot reverse data!`)) {
+				
+				$.ajax({
+				type: 'delete',
+                headers: {
+					"Content-Type": "application/json"
+				},
+				url: baseUrl + "Users" + "/" + deleteSelectedUser.id,
+				success: function () {
+					alert('Request was successful.');
+                    if (deleteSelectedUser === selectedUser) {
+						selectedUser = null;
+						currentSelectedIndex = -1;
+					}
+                    $(`#${deleteSelectedUser.id}`).hide(1);
+				},
+				error: function (data) {
+					alert('An error occurred: ' + err.responseText);
+					console.log(err.responseText);
+				},
+			});
+			}
+		}
+
+		var addFillDataEvent = () => {
+			$("button[name='btn-update']").click(updateBtnClicked);
+			$("button[name='btn-delete']").click(deleteBtnClicked);
+		}
+
+		$("button[name='btn-function']").click((e) => {
+
+			let type = e.target.value;
+			switch(type) {
+                case "getAll":
+                    getAllUser();
+                    break;
+			}
+
+		});
+
+		var frm = $('#form_user');
+		frm.submit(function (e) {
+
+			e.preventDefault();
+
+            var object = {};
+			(new FormData(e.target)).forEach(function(value, key){
+				object[key] = value;
+			});
+			var json = JSON.stringify(object);
+            console.log("Submit(put): " + json);
+			$.ajax({
+				type: 'put',
+                headers: {
+					"Content-Type": "application/json"
+				},
+				url: baseUrl + "Users",
+				data: json,
+				success: function (user) {
+					alert('Submission was successful.');
+					console.log(user);
+                    let newRow =
+                    `
+					<tr id="${user.id}">
+						<td>${user.id}</td>
+						<td>${user.email}</td>
+						<td>${user.fullName}</td>
+						<td>${user.hireDate}</td>
+						<td>${user.role.description}</td>
+						<td>${user.source}</td>
+						<td>${user.publisher.name}</td>
+						<td>
+							<button name="btn-update" class="btn btn-success m-1" value="${currentSelectedIndex}">Edit</button>
+							<button name="btn-delete" class="btn btn-danger m-1" value="${currentSelectedIndex}">Remove</button>
+						</td>
+					<tr>
+					`;
+                    $(`#${user.id}`).replaceWith(newRow);
+                    users[currentSelectedIndex] = user;
+				},
+				error: function (err) {
+					alert('An error occurred: ' + err.responseText);
+					console.log(err.responseText);
+				},
+			});
+		});
+
+		$("#form_close").click(() => {
+			$("#form_user").hide();
+		});
+
+		function Init() {
+            $("#loading").hide();
+            $("#table_users").hide();
+            $("#form_user").hide();
+
+            getAllPublisher();
+            getAllRole();
+			getAllUser();
+
+		}
+
+		Init();
+
+	</script>
+}

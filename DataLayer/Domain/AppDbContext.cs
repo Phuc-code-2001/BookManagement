@@ -35,5 +35,28 @@ namespace DataLayer.Domain
         public DbSet<Author> Authors { get; set; }
         public DbSet<BookAuthor> BookAuthorSet { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            AppRole[] roleSystems = new AppRole[]
+            {
+                new AppRole()
+                {
+                    Id = 1,
+                    Description = "Customer"
+                },
+                new AppRole()
+                {
+                    Id = 2,
+                    Description = "Admin"
+                },
+            };
+
+            modelBuilder.Entity<AppRole>().HasData(roleSystems);
+
+
+
+        }
+
     }
 }
