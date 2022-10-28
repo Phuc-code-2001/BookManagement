@@ -1,9 +1,9 @@
 ﻿@{
-	ViewData["Title"] = "Publishers";
+	ViewData["Title"] = "Authors";
 }
 
 <div class="card">
-	<div class="card-header">Publishers Panel</div>
+	<div class="card-header">Authors Panel</div>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-md-12 text-white text-center">
@@ -16,8 +16,27 @@
 					<hr />
 					<div class="row">
 						<div class="form-group col-lg-4 col-md-6">
-							<label for="Name_Create">Name</label>
-							<input type="text" class="form-control" id="Name_Create" name="Name" placeholder="Enter Name"/>
+							<label for="FirstName_Create">FirstName</label>
+							<input type="text" class="form-control" id="FirstName_Create" name="FirstName" placeholder="Enter FirstName"/>
+						</div>
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="LastName_Create">FirstName</label>
+							<input type="text" class="form-control" id="LastName_Create" name="LastName" placeholder="Enter LastName"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="Phone_Create">Phone</label>
+							<input type="text" class="form-control" id="Phone_Create" name="Phone" placeholder="Enter Phone"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="Email_Create">Email</label>
+							<input type="email" class="form-control" id="Email_Create" name="Email" placeholder="Enter Email"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="Address_Create">Address</label>
+							<input type="text" class="form-control" id="Address_Create" name="Address" placeholder="Enter Address"/>
 						</div>
 					
 						<div class="form-group col-lg-4 col-md-6">
@@ -27,17 +46,17 @@
 							</select>
 						</div>
 						<div class="form-group col-lg-4 col-md-6">
-							<label for="State_Update">State</label>
+							<label for="State_Create">State</label>
 							<select class="form-control" id="State_Create" name="State" placeholder="Select State">
 
 							</select>
 						</div>
-						<div class="form-group col-lg-4 col-md-6">
-							<label for="Country_Update">Country</label>
-							<select class="form-control" id="Country_Create" name="Country" placeholder="Select Country">
 
-							</select>
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="ZipCode_Create">ZipCode</label>
+							<input type="text" class="form-control" id="ZipCode_Create" name="ZipCode" placeholder="Enter ZipCode"/>
 						</div>
+						
 						<div class="m-2 col-sm-12 text-center">
 							<button type="button" id="form_create_close" class="btn btn-danger">Close</button>
 							<button type="submit" class="btn btn-success">Create</button>
@@ -53,10 +72,13 @@
 					<thead class="bg-primary text-white">
 						<tr>
 							<th>Id</th>
-							<th>Name</th>
+							<th>FullName</th>
+							<th>Phone</th>
+							<th>Email</th>
+							<th>Address</th>
 							<th>City</th>
 							<th>State</th>
-							<th>Country</th>
+							<th>ZipCode</th>
 							<th>...</th>
 						</tr>
 						<tr id="loading">
@@ -77,13 +99,35 @@
 					<hr />
 
 					<div class="row">
+
 						<div class="form-group col-lg-4 col-md-6">
 							<label for="Id_Update">Id</label>
-							<input type="text" readonly class="form-control" id="Id_Update" name="Id" placeholder="Enter Id"/>
+							<input type="text" readonly class="form-control" id="Id_Update" name="Id"/>
 						</div>
+
 						<div class="form-group col-lg-4 col-md-6">
-							<label for="Name_Update">Name</label>
-							<input type="text" class="form-control" id="Name_Update" name="Name" placeholder="Enter Name"/>
+							<label for="FirstName_Update">FirstName</label>
+							<input type="text" class="form-control" id="FirstName_Update" name="FirstName" placeholder="Enter FirstName"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="LastName_Update">LastName</label>
+							<input type="text" class="form-control" id="LastName_Update" name="LastName" placeholder="Enter LastName"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="Phone_Update">Phone</label>
+							<input type="text" class="form-control" id="Phone_Update" name="Phone" placeholder="Enter Phone"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="Email_Update">Email</label>
+							<input type="email" class="form-control" id="Email_Update" name="Email" placeholder="Enter Email"/>
+						</div>
+
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="Address_Update">Address</label>
+							<input type="text" class="form-control" id="Address_Update" name="Address" placeholder="Enter Address"/>
 						</div>
 					
 						<div class="form-group col-lg-4 col-md-6">
@@ -98,12 +142,12 @@
 
 							</select>
 						</div>
-						<div class="form-group col-lg-4 col-md-6">
-							<label for="Country_Update">Country</label>
-							<select class="form-control" id="Country_Update" name="Country" placeholder="Select Country">
 
-							</select>
+						<div class="form-group col-lg-4 col-md-6">
+							<label for="ZipCode_Update">ZipCode</label>
+							<input type="text" class="form-control" id="ZipCode_Update" name="ZipCode" placeholder="Enter ZipCode"/>
 						</div>
+						
 						<div class="m-2 col-sm-12 text-center">
 							<button type="button" id="form_update_close" class="btn btn-danger">Close</button>
 							<button type="submit" class="btn btn-success">Save</button>
@@ -116,6 +160,7 @@
 	</div>
 
 </div>
+
 @section Scripts {
 
 <script>
@@ -123,22 +168,22 @@
 // Definition
 
 var baseUrl = "https://localhost:44310/api/";
-var publishers = [];
+var itemList = [];
 var selectedItem = null;
 var selectedIndex = -1;
 
-var getAllPublisher = function() {
+var getAllItems = function() {
 
 	$("#table_items").show();
     $("#loading").show();
 
-	$.get(baseUrl + "Publishers", function(data, status)
+	$.get(baseUrl + "Authors", function(data, status)
 	{
         if (status == "success") {
 			$("#loading").hide(0.5);
-            publishers = data;
-            console.log(publishers);
-            renderItems(publishers);
+            itemList = data;
+            console.log(itemList);
+            renderItems(itemList);
         }
         else {
             alert(data);
@@ -156,10 +201,13 @@ var renderItems = function(dataset) {
 		`
 		<tr id="${item.id}">
 			<td>${item.id}</td>
-			<td>${item.name}</td>
+			<td>${item.fullName}</td>
+			<td>${item.phone}</td>
+			<td>${item.email}</td>
+			<td>${item.address}</td>
 			<td>${item.city.name}</td>
 			<td>${item.state.name}</td>
-			<td>${item.country.name}</td>
+			<td>${item.zipCode}</td>
 			<td>
 				<button name="btn-update" class="btn btn-success m-1" value="${idx}">Edit</button>
 				<button name="btn-delete" class="btn btn-danger m-1" value="${idx}">Remove</button>
@@ -182,7 +230,7 @@ var updateBtnClicked = (e) => {
 
     console.log("update clicked!");
     let idx = e.currentTarget.value;
-    selectedItem = publishers[idx];
+    selectedItem = itemList[idx];
     selectedIndex = idx;
 
     fillInfo(selectedItem);
@@ -193,26 +241,31 @@ var updateBtnClicked = (e) => {
 
 var fillInfo = function(item) {
     $("#Id_Update").val(item.id);
-    $("#Name_Update").val(item.name);
+    $("#FirstName_Update").val(item.firstName);
+    $("#LastName_Update").val(item.lastName);
+    $("#Phone_Update").val(item.phone);
+    $("#Email_Update").val(item.email);
+    $("#Address_Update").val(item.address);
     $("#City_Update").val(item.city.id);
     $("#State_Update").val(item.state.id);
-    $("#Country_Update").val(item.country.id);
+    $("#ZipCode_Update").val(item.zipCode);
 };
 
 var deleteBtnClicked = (e) => {
 	console.log("delete clicked!");
             
 	let idx = e.currentTarget.value;
-	let deleteSelectedItem = publishers[idx];
-
-    if (confirm(`Delete publisher with Id=${deleteSelectedItem.id}? You cannot reverse data!`)) {
+	let deleteSelectedItem = itemList[idx];
+    console.log(idx);
+    console.log(deleteSelectedItem);
+    if (confirm(`Delete author with Id=${deleteSelectedItem.id}? You cannot reverse data!`)) {
 				
 		$.ajax({
 		type: 'delete',
         headers: {
 			"Content-Type": "application/json"
 		},
-		url: baseUrl + "Publishers" + "/" + deleteSelectedItem.id,
+		url: baseUrl + "Authors" + "/" + deleteSelectedItem.id,
 		success: function () {
 			alert('Request was successful.');
             if (deleteSelectedItem === selectedItem) {
@@ -257,7 +310,7 @@ var filloptionsToSelectBox = function(DOM, dataset) {
     DOM.append(dataRow);
 }
 
-$("#btn-refresh").click(getAllPublisher);
+$("#btn-refresh").click(getAllItems);
 
 $("#form_update_close").click(() => {
     $("#form_update").hide(1);
@@ -278,7 +331,7 @@ var Init = function() {
     $("#form_update").hide();
     $("#form_create").hide();
 
-    getAllPublisher();
+    getAllItems();
     getOptions("GetCities", $("select[name='City']"));
     getOptions("GetStates", $("select[name='State']"));
     getOptions("GetCountries", $("select[name='Country']"));
@@ -294,7 +347,7 @@ frm.submit(function (e) {
 	// get value from form stackoverflow
 	(new FormData(e.target)).forEach(function(value, key){
 		// check can parse from string to int or not
-		if(!isNaN(value)){
+		if(key != "Phone" && key != "ZipCode" && !isNaN(value)){
 			value = parseFloat(value);
 		}
 		object[key] = value;
@@ -309,12 +362,12 @@ frm.submit(function (e) {
         headers: {
 			"Content-Type": "application/json"
 		},
-		url: baseUrl + "Publishers",
+		url: baseUrl + "Authors",
 		data: json,
 		// onsuccess
-		success: function (publisher) {
-			alert('Create publisher was successful, Id=' + publisher.id);
-				console.log(publisher);
+		success: function (item) {
+			alert('Create publisher was successful, Id=' + item.id);
+				console.log(item);
 		},
 		// onerror
 		error: function (err) {
@@ -335,7 +388,7 @@ updateFrm.submit(function (e) {
 	// get value from form stackoverflow
 	(new FormData(e.target)).forEach(function (value, key) {
 		// check can parse from string to int or not
-		if (!isNaN(value)) {
+		if (key != "Phone" && key != "ZipCode" && !isNaN(value)) {
 			value = parseFloat(value);
 		}
 		object[key] = value;
@@ -343,14 +396,14 @@ updateFrm.submit(function (e) {
 
 	var json = JSON.stringify(object);
 
-	console.log("Submit(post): " + json);
+	console.log("Submit(put): " + json);
 
 	$.ajax({
 		type: 'put',
 		headers: {
 			"Content-Type": "application/json"
 		},
-		url: baseUrl + "Publishers",
+		url: baseUrl + "Authors",
 		data: json,
 		// onsuccess
 		success: function (item) {
@@ -358,19 +411,24 @@ updateFrm.submit(function (e) {
 			console.log(item);
 
 			let newRow =
-				`<tr id="${item.id}">
+				`
+				<tr id="${item.id}">
 					<td>${item.id}</td>
-					<td>${item.name}</td>
+					<td>${item.fullName}</td>
+					<td>${item.phone}</td>
+					<td>${item.email}</td>
+					<td>${item.address}</td>
 					<td>${item.city.name}</td>
 					<td>${item.state.name}</td>
-					<td>${item.country.name}</td>
+					<td>${item.zipCode}</td>
 					<td>
 						<button name="btn-update" class="btn btn-success m-1" value="${selectedIndex}">Edit</button>
 						<button name="btn-delete" class="btn btn-danger m-1" value="${selectedIndex}">Remove</button>
 					</td>
-				<tr>`;
+				<tr>
+				`;
 			$(`#${item.id}`).replaceWith(newRow); 
-			publishers[selectedIndex] = item;
+			itemList[selectedIndex] = item;
 			addFillDataEvent();
 		},
 		// onerror

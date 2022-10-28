@@ -257,7 +257,7 @@
 					}
                     $(`#${deleteSelectedUser.id}`).hide(1);
 				},
-				error: function (data) {
+				error: function (err) {
 					alert('An error occurred: ' + err.responseText);
 					console.log(err.responseText);
 				},

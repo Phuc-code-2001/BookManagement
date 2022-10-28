@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataLayer.Domain;
 using WebApi.DTOs;
+using WebApi.Models.Authors;
 using WebApi.Models.Users;
 
 namespace WebApi.Mappers
@@ -9,6 +10,7 @@ namespace WebApi.Mappers
     {
         public MapperProfiles()
         {
+            // AppUser Create Update
             CreateMap<CreateAppUser, AppUser>();
             CreateMap<UpdateAppUser, AppUser>()
                 .ForMember(des => des.RoleId, act =>
@@ -24,10 +26,20 @@ namespace WebApi.Mappers
                 .ForAllMembers(opts => opts.Condition((src, des, member) => member != null));
 
 
-            // DTOs
+            // AppUser DTOs
             CreateMap<AppUser, AppUserDTO>()
                 .ForMember(des => des.HireDate, act => act.MapFrom(src => src.HireDate.Value.ToString("yyyy-MM-dd")));
             CreateMap<Publisher, PublisherDTO>();
+
+
+            // Author Create Update
+            CreateMap<CreateAuthor, Author>();
+            CreateMap<UpdateAuthor, Author>()
+                .ForAllMembers(opts => opts.Condition((src, des, member) => member != null));
+
+
+            //  Author DTO
+            CreateMap<Author, AuthorDTO>();
 
 
             // Enum -> TypeResponse
