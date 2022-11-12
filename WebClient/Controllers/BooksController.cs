@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebClient.Controllers
 {
-    public class AuthorsController : Controller
+    public class BooksController : Controller
     {
         [Authorize(Roles = "Admin")]
         public IActionResult Index()

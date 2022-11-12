@@ -1,6 +1,8 @@
 ﻿using DataLayer.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using System;
 using System.Linq;
 
@@ -18,6 +20,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [EnableQuery]
         public IActionResult GetAll()
         {
             try
@@ -32,6 +36,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{Id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Get(int Id)
         {
             try
@@ -46,6 +51,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(AppRole role)
         {
             try
@@ -61,6 +67,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(AppRole role)
         {
             try
@@ -83,6 +90,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             try

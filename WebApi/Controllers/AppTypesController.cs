@@ -14,10 +14,12 @@ namespace WebApi.Controllers
     {
 
         IMapper _mapper;
+        AppDbContext _context;
 
-        public AppTypesController(IMapper mapper)
+        public AppTypesController(IMapper mapper, AppDbContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
 
         [HttpGet]
@@ -49,6 +51,14 @@ namespace WebApi.Controllers
         public IActionResult GetCountries()
         {
             var types = _mapper.Map<TypeResponse[]>(Enum.GetValues<Country>());
+
+            return Ok(types);
+        }
+
+        [HttpGet]
+        public IActionResult GetPublishers()
+        {
+            var types = _mapper.Map<TypeResponse[]>(_context.Publishers.ToArray());
 
             return Ok(types);
         }

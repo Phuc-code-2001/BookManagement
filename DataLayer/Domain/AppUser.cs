@@ -40,6 +40,7 @@ namespace DataLayer.Domain
         public int RoleId { get; set; }
         public AppRole Role { get; set; }
 
+
         [ForeignKey(nameof(Publisher))]
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }

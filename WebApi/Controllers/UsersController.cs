@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DataLayer.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -53,6 +55,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             try
@@ -76,6 +79,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{Id}")]
+        [Authorize]
         public IActionResult Get(int Id)
         {
             try
@@ -98,6 +102,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [EnableQuery]
         public IActionResult GetAll()
         {
             try

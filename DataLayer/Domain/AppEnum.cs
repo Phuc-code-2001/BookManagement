@@ -9,28 +9,37 @@ namespace DataLayer.Domain
     public enum BookType
     {
         Unknown,
-        Type1,
-        Type2,
+        ActionAndAdventure,
+        Classics,
+        ComicBookOrGraphicNovel,
+        DetectiveAndMystery,
+        Fantasy,
+        HistoricalFiction,
+        Horror,
+        LiteraryFiction,
     }
 
     public enum City
     {
         Unknown,
-        City1,
-        City2,
+        CanTho,
+        BacLieu,
+        Other,
     }
 
     public enum State
     {
         Unknown,
-        State1,
-        State2,
+        Asia,
+        Europe,
+        Other,
     }
 
     public enum Country
     {
         Unknown,
-        Country1,
-        Country2,
+        VietNam,
+        China,
+        Other
     }
 }

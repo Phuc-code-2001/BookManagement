@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using WebClient.Extentions
+@using static WebApi.Controllers.IdentityController
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -42,6 +44,21 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @{
+        TokenResponse auth = SessionManager.Authenticate(Context);
+        if(auth != null)
+        {
+            <script>
+            $.ajaxSetup({
+		        headers:{
+                    'Authorization': "Bearer " + "@auth.AccessToken"
+		        }
+		    });
+            </script>
+        }
+    }
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

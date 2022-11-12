@@ -2,6 +2,7 @@
 using DataLayer.Domain;
 using WebApi.DTOs;
 using WebApi.Models.Authors;
+using WebApi.Models.Books;
 using WebApi.Models.Users;
 
 namespace WebApi.Mappers
@@ -41,6 +42,14 @@ namespace WebApi.Mappers
             //  Author DTO
             CreateMap<Author, AuthorDTO>();
 
+            // Book Create Update
+            CreateMap<CreateBook, Book>();
+            CreateMap<UpdateBook, Book>()
+                .ForAllMembers(opts => opts.Condition((src, des, member) => member != null));
+
+            // Book DTO
+            CreateMap<Book, BookDTO>()
+                .ForMember(des => des.PublishedDate, act => act.MapFrom(src => src.PublishedDate.ToString("yyyy-MM-dd")));
 
             // Enum -> TypeResponse
             CreateMap<BookType, TypeResponse>()
@@ -58,6 +67,10 @@ namespace WebApi.Mappers
             CreateMap<Country, TypeResponse>()
                 .ForMember(des => des.Id, act => act.MapFrom(src => src))
                 .ForMember(des => des.Name, act => act.MapFrom(src => src.ToString()));
+
+            CreateMap<Publisher, TypeResponse>();
+                
+
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿@{
+﻿@using WebClient.Extentions
+@{
 	ViewData["Title"] = "Users";
+
+	string accessToken = SessionManager.Authenticate(Context)?.AccessToken;
 }
 
 <div class="card">
@@ -97,7 +100,13 @@
 
 		// Definition
 
-		var baseUrl = "https://localhost:44310/api/"
+		var baseUrl = "https://localhost:44310/api/";
+
+		$.ajaxSetup({
+		   headers:{
+                'Authorization': "Bearer " + "@accessToken"
+		   }
+		});
 
 		var users = [];
 		var publishers = [];
@@ -295,7 +304,7 @@
 			$.ajax({
 				type: 'put',
                 headers: {
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
 				},
 				url: baseUrl + "Users",
 				data: json,

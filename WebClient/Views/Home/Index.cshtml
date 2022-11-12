@@ -1,12 +1,152 @@
-﻿@{
+﻿@using WebClient.Extentions
+@using static WebApi.Controllers.IdentityController
+@{
     ViewData["Title"] = "Home Page";
+    TokenResponse auth = SessionManager.Authenticate(Context); 
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+@if(auth == null) 
+{
+    <div class="text-center">
+        <h1 class="display-6">Welcome to PhucHT's BookStore</h1>
+        <p>If you do not account, please <a asp-controller="Users" asp-action="Register"> register here</a>.</p>
+        <p>If you have account,<a asp-controller="Login" asp-action="Index"> login here</a>.</p>
+    </div>
+}
+
+@if(auth != null)
+{
+    <hr />
+    <div class="text-right">
+        <a class="btn btn-danger" asp-controller="Logout" asp-action="Index">Logout</a>
+    </div>
+    <hr />
+    if(auth.User.Role.Description == "Admin")
+    {
+    <h4>Hello Admin, @auth.User.FullName!</h4>
+    <hr />
+    <a asp-controller="Users" asp-action="Index" class="btn btn-primary">Users Panel</a>
+    <a asp-controller="Publishers" asp-action="Index" class="btn btn-primary">Publishers Panel</a>
+    <a asp-controller="Authors" asp-action="Index" class="btn btn-primary">Authors Panel</a>
+    <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Books Panel</a>
+    }
+    if(auth.User.Role.Description == "Customer")
+    {
+        <h4>Hello Customer, @auth.User.FullName!</h4>
+    }
+}
+
+<hr />
+
+<div class="container">
+    <br />
+    <div class="d-flex justify-content-between">
+	<h3>All Books</h3>
+    <form method="get" id="form_search" class="d-flex align-items-center" style="gap:10px;">
+        <input type="text" name="search" class="form-control" placeholder="Enter a name or price"/>
+        <button type="submit" class="btn btn-primary">
+            Search
+        </button>
+    </form>
+    </div>
+	<hr />
+	<div class="d-flex justify-content-center">
+		<div id="loading" class="spinner-border text-secondary" role="status">
+			<span class="sr-only">Loading...</span>
+		</div>
+	</div>
+	<div class="row" id="flexbox_items"></div>
 </div>
 
-<a asp-controller="Users" asp-action="Index" class="btn btn-primary">Users Panel</a>
-<a asp-controller="Publishers" asp-action="Index" class="btn btn-primary">Publishers Panel</a>
-<a asp-controller="Authors" asp-action="Index" class="btn btn-primary">Authors Panel</a>
+
+@section Scripts 
+{
+<script>
+
+var baseUrl = "https://localhost:44310/api/";
+var itemList = [];
+var selectedItem = null;
+var selectedIndex = -1;
+
+var getAllItems = function() {
+
+	$("#flexbox_items").show();
+    $("#loading").show();
+
+	$.get(baseUrl + "Books", function(data, status)
+	{
+        if (status == "success") {
+			$("#loading").hide(0.5);
+            itemList = data;
+            console.log(itemList);
+            renderItems(itemList);
+        }
+        else {
+            alert(data);
+		}
+	});
+}
+
+var renderItems = function(dataset) {
+            
+    let dataRow = "";
+	
+	dataset.forEach((item, idx) => {
+        dataRow += BookRenderer(item);
+    });
+
+    // console.log(dataRow);
+
+    $("#flexbox_items").html(dataRow);
+    addFillDataEvent();
+
+}
+
+var addFillDataEvent = () => {
+	
+}
+
+$("#form_search").submit(function(e) {
+
+    e.preventDefault();
+
+    let search = $("input[name='search']").val();
+    console.log(search);
+    $.get(baseUrl + "Books/Search?search=" + search, function(data, status)
+	{
+        $("#flexbox_items").show();
+        $("#loading").show();
+
+        if (status == "success") {
+			$("#loading").hide(0.5);
+            itemList = data;
+            console.log(itemList);
+            renderItems(itemList);
+        }
+        else {
+            alert(data);
+		}
+	});
+
+});
+
+var Init = function() {
+	$("#loading").hide();
+    $("#flexbox_items").hide();
+    //$("#form_update").hide();
+    //$("#form_create").hide();
+
+    getAllItems();
+    //getOptions("GetCities", $("select[name='City']"));
+    //getOptions("GetStates", $("select[name='State']"));
+    //getOptions("GetCountries", $("select[name='Country']"));
+}
+
+Init();
+
+;
+
+</script>
+
+}

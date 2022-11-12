@@ -1,0 +1,58 @@
+﻿@using WebApi.Models.Identities
+@{
+	ViewData["Title"] = "Login";
+}
+
+@model LoginModel
+
+@if(ViewBag.ApiMessage != null) 
+{
+	<div class="alert alert-warning">
+		<strong>API Message: </strong>
+		<span>@ViewBag.ApiMessage</span>
+	</div>
+}
+
+<div class="p-5 rounded"
+	 style="
+			height: 80vh;
+			background-image: url(https://images.unsplash.com/photo-1549675584-91f19337af3d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80);
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: 50%;
+">
+
+	<div class="d-flex justify-content-end">
+		
+		<div class="p-5 rounded text-dark" style="background-color: rgba(255, 255, 255)">
+			<h2 class="text-center">Welcome to BookStore</h2>
+			<hr />
+			<form method="post">
+
+				<div class="form-group">
+					<label asp-for="Email"></label>
+					<input asp-for="Email" class="form-control" />
+					<span class="d-block text-danger bg-white font-weight-bold px-2 my-2 rounded" asp-validation-for="Email"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Password"></label>
+					<input asp-for="Password" type="password" class="form-control" />
+					<span class="d-block text-danger bg-white font-weight-bold px-2 my-2 rounded" asp-validation-for="Password"></span>
+				</div>
+				<div class="form-group text-right">
+					<button type="submit" class="btn btn-primary px-4">Login</button>
+				</div>
+
+			</form>
+			<hr />
+			<span>You do not have account?</span>
+			<a class="text-black" asp-controller="Users" asp-action="Register">Register here</a>
+
+		</div>
+
+
+	</div>
+
+</div>
+
+

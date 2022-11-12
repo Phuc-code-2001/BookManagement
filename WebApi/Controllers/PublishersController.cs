@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DataLayer.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using System;
 using System.Linq;
 using WebApi.DTOs;
@@ -22,6 +24,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(Publisher createModel)
         {
             try
@@ -40,6 +43,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int Id)
         {
             try
@@ -74,6 +78,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [EnableQuery]
         public IActionResult GetAll()
         {
             try
@@ -89,6 +94,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public IActionResult Update(Publisher updateModel)
         {
             try
